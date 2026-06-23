@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สร้างรายงานใหม่ | Team Work Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #0f0f2a;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.07);
+  --text-primary: #f0f0ff;
+  --text-secondary: rgba(240, 240, 255, 0.6);
+  --text-muted: rgba(240, 240, 255, 0.35);
+  --accent-indigo: #6366f1;
+  --accent-violet: #8b5cf6;
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-rose: #f43f5e;
+  --accent-cyan: #22d3ee;
+  --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+  --gradient-success: linear-gradient(135deg, #34d399, #059669);
+  --sidebar-width: 270px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Animated Background ===== */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-mesh .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  animation: orbFloat 20s ease-in-out infinite;
+}
+
+.bg-mesh .orb:nth-child(1) {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99,102,241,0.4), transparent 70%);
+  top: -15%;
+  left: -10%;
+  animation-duration: 25s;
+}
+
+.bg-mesh .orb:nth-child(2) {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(139,92,246,0.3), transparent 70%);
+  bottom: -10%;
+  right: -10%;
+  animation-duration: 30s;
+  animation-delay: -5s;
+}
+
+.bg-mesh .orb:nth-child(3) {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(34,211,238,0.2), transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 22s;
+  animation-delay: -10s;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, -30px) scale(1.05); }
+  50% { transform: translate(-20px, 40px) scale(0.95); }
+  75% { transform: translate(30px, 20px) scale(1.02); }
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: rgba(10, 10, 30, 0.85);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-right: 1px solid var(--glass-border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-header {
+  padding: 28px 24px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.sidebar-logo-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+}
+
+.sidebar-logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e0e0ff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.3px;
+}
+
+.sidebar-logo-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  border-radius: var(--radius-md);
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+}
+
+.nav-item:hover::before {
+  opacity: 0.08;
+}
+
+.nav-item.active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.nav-item.active::before {
+  opacity: 0.15;
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 24px;
+  background: var(--gradient-primary);
+  border-radius: 0 4px 4px 0;
+}
+
+.nav-item span:first-child {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-item span:last-child {
+  position: relative;
+  z-index: 1;
+}
+
+.nav-divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 8px 16px;
+}
+
+.sidebar-footer {
+  padding: 16px 12px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.nav-item.logout {
+  color: rgba(244, 63, 94, 0.7);
+}
+
+.nav-item.logout:hover {
+  color: #f43f5e;
+}
+
+.nav-item.logout:hover::before {
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  opacity: 0.1;
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  padding: 32px 40px 60px;
+}
+
+/* ===== Hamburger ===== */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  background: rgba(15, 15, 42, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+}
+
+/* ===== Page Header ===== */
+.page-header {
+  margin-bottom: 32px;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.breadcrumb a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+  color: var(--accent-indigo);
+}
+
+.breadcrumb .sep {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+.page-title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #f0f0ff 0%, #a5b4fc 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Glass Card ===== */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 28px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--glass-hover);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.card-title .icon {
+  width: 36px;
+  height: 36px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+}
+
+/* ===== Form Elements ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--accent-indigo);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(240,240,255,0.4)' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.form-select option {
+  background: #1a1a3a;
+  color: var(--text-primary);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+/* ===== Shift Selector ===== */
+.shift-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.shift-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 20px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shift-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.shift-btn:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+}
+
+.shift-btn.active {
+  border-color: var(--accent-indigo);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2), inset 0 0 20px rgba(99, 102, 241, 0.05);
+}
+
+.shift-btn.active::before {
+  opacity: 0.15;
+}
+
+.shift-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Progress Bar ===== */
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.progress-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.progress-text .count {
+  color: var(--accent-indigo);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.progress-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-primary);
+  border-radius: 100px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+  border-radius: 100px;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.progress-percent {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-indigo);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ===== Checklist Items ===== */
+.checklist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklist-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.checklist-item:nth-child(1) { animation-delay: 0.05s; }
+.checklist-item:nth-child(2) { animation-delay: 0.1s; }
+.checklist-item:nth-child(3) { animation-delay: 0.15s; }
+.checklist-item:nth-child(4) { animation-delay: 0.2s; }
+.checklist-item:nth-child(5) { animation-delay: 0.25s; }
+.checklist-item:nth-child(6) { animation-delay: 0.3s; }
+.checklist-item:nth-child(7) { animation-delay: 0.35s; }
+.checklist-item:nth-child(8) { animation-delay: 0.4s; }
+
+.checklist-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+}
+
+.checklist-item.checked {
+  border-color: rgba(52, 211, 153, 0.2);
+  background: rgba(52, 211, 153, 0.04);
+}
+
+.checklist-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Custom Checkbox */
+.custom-checkbox {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.checkbox-visual {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.checkbox-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-success);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 5px;
+}
+
+.checkbox-visual svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-checkbox input:checked + .checkbox-visual {
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
+}
+
+.custom-checkbox input:checked + .checkbox-visual::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.custom-checkbox input:checked + .checkbox-visual svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.item-number {
+  width: 28px;
+  height: 28px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-indigo);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.checklist-item.checked .item-number {
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.2);
+  color: var(--accent-emerald);
+}
+
+.item-text {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  line-height: 1.5;
+}
+
+.checklist-item.checked .item-text {
+  color: var(--text-secondary);
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.action-btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--accent-indigo);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.action-btn.has-content {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.25);
+  color: var(--accent-indigo);
+}
+
+.action-btn .badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: var(--accent-indigo);
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.status-badge.pending {
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--accent-amber);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.status-badge.done {
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+/* ===== Photo Upload Area ===== */
+.item-extras {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0;
+}
+
+.item-extras.show-photos,
+.item-extras.show-notes,
+.item-extras.show-both {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 16px;
+}
+
+.photo-upload-area {
+  display: none;
+  padding-top: 4px;
+}
+
+.photo-upload-area.visible {
+  display: block;
+}
+
+.drop-zone {
+  border: 2px dashed rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(99, 102, 241, 0.03);
+  margin-bottom: 12px;
+}
+
+.drop-zone:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.06);
+  transform: scale(1.01);
+}
+
+.drop-zone-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.drop-zone-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.drop-zone-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.drop-zone input[type="file"] {
+  display: none;
+}
+
+.photo-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.photo-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+  animation: thumbIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  border: 1px solid var(--glass-border);
+}
+
+@keyframes thumbIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.photo-thumb .thumb-preview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.photo-thumb .thumb-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  background: rgba(244, 63, 94, 0.9);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+
+.photo-thumb:hover .thumb-delete {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ===== Notes Input ===== */
+.notes-input-area {
+  display: none;
+  padding-top: 4px;
+}
+
+.notes-input-area.visible {
+  display: block;
+}
+
+.notes-input-area .item-note-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.3s ease;
+  resize: none;
+  min-height: 60px;
+}
+
+.notes-input-area .item-note-input:focus {
+  border-color: var(--accent-indigo);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.notes-input-area .item-note-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ===== Action Buttons ===== */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.btn {
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+.btn-outline:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary .btn-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover .btn-shine {
+  left: 100%;
+}
+
+/* ===== Success Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: rgba(20, 20, 50, 0.95);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  transform: scale(0.8) translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(40px);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.success-checkmark {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+
+.success-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--gradient-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 40px rgba(52, 211, 153, 0.3);
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0%, 100% { box-shadow: 0 8px 40px rgba(52, 211, 153, 0.3); }
+  50% { box-shadow: 0 8px 60px rgba(52, 211, 153, 0.5); }
+}
+
+.success-circle svg {
+  width: 36px;
+  height: 36px;
+  fill: none;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.success-circle svg .check-path {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: drawCheck 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #34d399, #059669);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modal-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+.modal-btn {
+  padding: 12px 36px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* ===== Confetti ===== */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  top: -10px;
+  animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fade-in-up-1 { animation-delay: 0.1s; }
+.fade-in-up-2 { animation-delay: 0.2s; }
+.fade-in-up-3 { animation-delay: 0.3s; }
+.fade-in-up-4 { animation-delay: 0.4s; }
+.fade-in-up-5 { animation-delay: 0.5s; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 24px 24px 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 80px 16px 60px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shift-selector {
+    flex-direction: column;
+  }
+
+  .shift-btn {
+    min-width: auto;
+  }
+
+  .checklist-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .item-actions {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 38px;
+  }
+
+  .status-badge {
+    margin-left: auto;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    justify-content: center;
+  }
+
+  .progress-section {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .progress-text {
+    width: 100%;
+  }
+
+  .photo-thumb {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 14px 24px;
+  background: rgba(20, 20, 50, 0.95);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(20px);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(120%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.toast.show {
+  transform: translateY(0);
+}
+
+.toast.success {
+  border-color: rgba(52, 211, 153, 0.3);
+}
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-mesh">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<!-- Hamburger -->
+<button class="hamburger" id="hamburger" aria-label="Toggle menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="sidebar-logo-icon">📋</div>
+      <div>
+        <div class="sidebar-logo-text">Team Work Report</div>
+        <div class="sidebar-logo-sub">MANAGEMENT SYSTEM</div>
+      </div>
+    </a>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="nav-item">
+      <span>📊</span>
+      <span>แดชบอร์ด</span>
+    </a>
+    <a href="checklist.html" class="nav-item active">
+      <span>📝</span>
+      <span>รายงานใหม่</span>
+    </a>
+    <a href="reports.html" class="nav-item">
+      <span>📋</span>
+      <span>รายการรายงาน</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span>👥</span>
+      <span>จัดการทีม</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span>⚙️</span>
+      <span>ตั้งค่า</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="index.html" class="nav-item logout">
+      <span>🚪</span>
+      <span>ออกจากระบบ</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="dashboard.html">แดชบอร์ด</a>
+      <span class="sep">›</span>
+      <span style="color: var(--accent-indigo);">รายงานใหม่</span>
+    </div>
+    <h1 class="page-title">สร้างรายงานใหม่</h1>
+  </div>
+
+  <!-- Report Info Card -->
+  <div class="glass-card fade-in-up fade-in-up-1">
+    <div class="card-title">
+      <div class="icon">📄</div>
+      ข้อมูลรายงาน
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">เลือกทีม</label>
+        <select class="form-select" id="teamSelect">
+          <option value="">-- เลือกทีม --</option>
+          <option value="maintenance">🔧 ทีมซ่อมบำรุง</option>
+          <option value="cleaning">🧹 ทีมทำความสะอาด</option>
+          <option value="security">🛡️ ทีมรักษาความปลอดภัย</option>
+          <option value="electrical">⚡ ทีมไฟฟ้า</option>
+          <option value="plumbing">🔩 ทีมประปา</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">วันที่</label>
+        <input type="date" class="form-input" id="reportDate">
+      </div>
+      <div class="form-group full-width">
+        <label class="form-label">หัวข้อรายงาน</label>
+        <input type="text" class="form-input" placeholder="กรอกหัวข้อรายงาน..." id="reportTitle">
+      </div>
+      <div class="form-group full-width">
+        <label class="form-label">กะการทำงาน</label>
+        <div class="shift-selector">
+          <button class="shift-btn active" data-shift="morning" onclick="selectShift(this)">
+            <span>🌅</span>
+            <span>กะเช้า</span>
+          </button>
+          <button class="shift-btn" data-shift="afternoon" onclick="selectShift(this)">
+            <span>☀️</span>
+            <span>กะบ่าย</span>
+          </button>
+          <button class="shift-btn" data-shift="night" onclick="selectShift(this)">
+            <span>🌙</span>
+            <span>กะดึก</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist Section -->
+  <div class="glass-card fade-in-up fade-in-up-2">
+    <div class="card-title">
+      <div class="icon">✅</div>
+      รายการตรวจสอบ
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="progress-text">
+        <span class="count" id="doneCount">0</span>/8 <span>รายการเสร็จสิ้น</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <div class="progress-percent" id="progressPercent">0%</div>
+    </div>
+
+    <!-- Checklist Items -->
+    <div class="checklist-items" id="checklistItems">
+      <!-- Items will be generated by JS -->
+    </div>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="glass-card fade-in-up fade-in-up-3">
+    <div class="card-title">
+      <div class="icon">📝</div>
+      หมายเหตุเพิ่มเติม
+    </div>
+    <textarea class="form-textarea" placeholder="เพิ่มหมายเหตุหรือข้อสังเกตเพิ่มเติม..." id="additionalNotes"></textarea>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn btn-outline" onclick="saveDraft()">
+      <span>💾</span>
+      <span>บันทึกฉบับร่าง</span>
+    </button>
+    <button class="btn btn-primary" onclick="submitReport()">
+      <div class="btn-shine"></div>
+      <span>📤</span>
+      <span>ส่งรายงาน</span>
+    </button>
+  </div>
+
+</main>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-content">
+    <div class="success-checkmark">
+      <div class="success-circle">
+        <svg viewBox="0 0 36 36">
+          <path class="check-path" d="M8 18 L15 25 L28 11" />
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title">ส่งรายงานสำเร็จ!</h2>
+    <p class="modal-text">รายงานของคุณถูกส่งเรียบร้อยแล้ว<br>ผู้จัดการจะได้รับการแจ้งเตือนโดยอัตโนมัติ</p>
+    <button class="modal-btn" onclick="closeModal()">เสร็จสิ้น</button>
+  </div>
+</div>
+
+<!-- Confetti Container -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span id="toastIcon">✅</span>
+  <span id="toastText"></span>
+</div>
+
+<script>
+// ===== Data =====
+const checklistData = [
+  { id: 1, text: 'ตรวจสอบความสะอาดพื้นที่', icon: '🧹' },
+  { id: 2, text: 'ตรวจสอบอุปกรณ์', icon: '🔧' },
+  { id: 3, text: 'เช็คระบบไฟฟ้า', icon: '⚡' },
+  { id: 4, text: 'ตรวจสอบระบบน้ำ', icon: '💧' },
+  { id: 5, text: 'ทำความสะอาดเครื่องจักร', icon: '⚙️' },
+  { id: 6, text: 'เปลี่ยนอะไหล่ตามกำหนด', icon: '🔩' },
+  { id: 7, text: 'บันทึกค่ามิเตอร์', icon: '📊' },
+  { id: 8, text: 'ตรวจสอบความปลอดภัย', icon: '🛡️' },
+];
+
+const photoColors = [
+  'linear-gradient(135deg, #6366f1, #8b5cf6)',
+  'linear-gradient(135deg, #34d399, #059669)',
+  'linear-gradient(135deg, #f59e0b, #d97706)',
+  'linear-gradient(135deg, #f43f5e, #e11d48)',
+  'linear-gradient(135deg, #22d3ee, #0891b2)',
+  'linear-gradient(135deg, #a78bfa, #7c3aed)',
+];
+
+// State
+const itemPhotos = {};
+const itemNotes = {};
+
+// ===== Init =====
+document.addEventListener('DOMContentLoaded', () => {
+  setTodayDate();
+  renderChecklist();
+  initHamburger();
+});
+
+function setTodayDate() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  document.getElementById('reportDate').value = `${yyyy}-${mm}-${dd}`;
+}
+
+// ===== Render Checklist =====
+function renderChecklist() {
+  const container = document.getElementById('checklistItems');
+  container.innerHTML = checklistData.map((item, i) => `
+    <div class="checklist-item" id="item-${item.id}" data-id="${item.id}">
+      <div class="checklist-row">
+        <label class="custom-checkbox">
+          <input type="checkbox" onchange="toggleCheck(${item.id})">
+          <div class="checkbox-visual">
+            <svg viewBox="0 0 14 14"><path d="M2 7 L5.5 10.5 L12 3.5" /></svg>
+          </div>
+        </label>
+        <div class="item-number">${item.id}</div>
+        <div class="item-text">${item.text}</div>
+        <div class="item-actions">
+          <button class="action-btn" title="อัปโหลดรูปภาพ" onclick="togglePhotos(${item.id})" id="photoBtn-${item.id}">
+            📷
+          </button>
+          <button class="action-btn" title="เพิ่มหมายเหตุ" onclick="toggleNotes(${item.id})" id="noteBtn-${item.id}">
+            📝
+          </button>
+          <span class="status-badge pending" id="status-${item.id}">รอดำเนินการ</span>
+        </div>
+      </div>
+      <div class="item-extras" id="extras-${item.id}">
+        <div class="photo-upload-area" id="photoArea-${item.id}">
+          <div class="drop-zone" onclick="triggerUpload(${item.id})" id="dropZone-${item.id}">
+            <input type="file" accept="image/*" multiple onchange="handleUpload(${item.id}, event)" id="fileInput-${item.id}">
+            <span class="drop-zone-icon">📷</span>
+            <div class="drop-zone-text">คลิกเพื่ออัปโหลดรูปภาพ</div>
+            <div class="drop-zone-hint">รองรับ JPG, PNG, HEIC • สูงสุด 10 MB</div>
+          </div>
+          <div class="photo-thumbnails" id="thumbs-${item.id}"></div>
+        </div>
+        <div class="notes-input-area" id="noteArea-${item.id}">
+          <textarea class="item-note-input" placeholder="เพิ่มหมายเหตุสำหรับรายการนี้..." 
+            oninput="updateNoteState(${item.id}, this.value)" id="noteInput-${item.id}"></textarea>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== Checkbox Toggle =====
+function toggleCheck(id) {
+  const item = document.getElementById(`item-${id}`);
+  const status = document.getElementById(`status-${id}`);
+  const checkbox = item.querySelector('input[type="checkbox"]');
+
+  if (checkbox.checked) {
+    item.classList.add('checked');
+    status.className = 'status-badge done';
+    status.textContent = 'เสร็จสิ้น';
+  } else {
+    item.classList.remove('checked');
+    status.className = 'status-badge pending';
+    status.textContent = 'รอดำเนินการ';
+  }
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = checklistData.length;
+  const checked = document.querySelectorAll('.checklist-item.checked').length;
+  const percent = Math.round((checked / total) * 100);
+
+  document.getElementById('doneCount').textContent = checked;
+  document.getElementById('progressBar').style.width = `${percent}%`;
+  document.getElementById('progressPercent').textContent = `${percent}%`;
+}
+
+// ===== Photo Upload =====
+function togglePhotos(id) {
+  const area = document.getElementById(`photoArea-${id}`);
+  const btn = document.getElementById(`photoBtn-${id}`);
+  const extras = document.getElementById(`extras-${id}`);
+  const isVisible = area.classList.contains('visible');
+
+  if (isVisible) {
+    area.classList.remove('visible');
+    updateExtrasVisibility(id);
+  } else {
+    area.classList.add('visible');
+    extras.classList.add('show-photos');
+    updateExtrasVisibility(id);
+  }
+}
+
+function triggerUpload(id) {
+  document.getElementById(`fileInput-${id}`).click();
+}
+
+function handleUpload(id, event) {
+  const files = event.target.files;
+  if (!files.length) return;
+
+  if (!itemPhotos[id]) itemPhotos[id] = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const color = photoColors[Math.floor(Math.random() * photoColors.length)];
+    const photoId = Date.now() + i;
+    itemPhotos[id].push({ id: photoId, color, name: files[i].name });
+  }
+
+  renderThumbnails(id);
+  updatePhotoBtn(id);
+
+  // Reset the input
+  event.target.value = '';
+}
+
+function renderThumbnails(id) {
+  const container = document.getElementById(`thumbs-${id}`);
+  const photos = itemPhotos[id] || [];
+
+  container.innerHTML = photos.map((photo, i) => `
+    <div class="photo-thumb" id="thumb-${photo.id}" style="animation-delay: ${i * 0.05}s;">
+      <div class="thumb-preview" style="background: ${photo.color};">📷</div>
+      <button class="thumb-delete" onclick="deletePhoto(${id}, ${photo.id})" title="ลบรูป">✕</button>
+    </div>
+  `).join('');
+}
+
+function deletePhoto(itemId, photoId) {
+  if (!itemPhotos[itemId]) return;
+
+  const thumb = document.getElementById(`thumb-${photoId}`);
+  if (thumb) {
+    thumb.style.transform = 'scale(0)';
+    thumb.style.opacity = '0';
+    setTimeout(() => {
+      itemPhotos[itemId] = itemPhotos[itemId].filter(p => p.id !== photoId);
+      renderThumbnails(itemId);
+      updatePhotoBtn(itemId);
+    }, 250);
+  }
+}
+
+function updatePhotoBtn(id) {
+  const btn = document.getElementById(`photoBtn-${id}`);
+  const count = (itemPhotos[id] || []).length;
+
+  if (count > 0) {
+    btn.classList.add('has-content');
+    const existing = btn.querySelector('.badge');
+    if (existing) existing.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = count;
+    btn.appendChild(badge);
+  } else {
+    btn.classList.remove('has-content');
+    const existing = btn.querySelector('.badge');
+    if (existing) existing.remove();
+  }
+}
+
+// ===== Notes Toggle =====
+function toggleNotes(id) {
+  const area = document.getElementById(`noteArea-${id}`);
+  const isVisible = area.classList.contains('visible');
+
+  if (isVisible) {
+    area.classList.remove('visible');
+    updateExtrasVisibility(id);
+  } else {
+    area.classList.add('visible');
+    updateExtrasVisibility(id);
+    setTimeout(() => {
+      document.getElementById(`noteInput-${id}`).focus();
+    }, 100);
+  }
+}
+
+function updateNoteState(id, value) {
+  itemNotes[id] = value;
+  const btn = document.getElementById(`noteBtn-${id}`);
+
+  if (value.trim()) {
+    btn.classList.add('has-content');
+  } else {
+    btn.classList.remove('has-content');
+  }
+}
+
+function updateExtrasVisibility(id) {
+  const extras = document.getElementById(`extras-${id}`);
+  const photosVisible = document.getElementById(`photoArea-${id}`).classList.contains('visible');
+  const notesVisible = document.getElementById(`noteArea-${id}`).classList.contains('visible');
+
+  extras.classList.remove('show-photos', 'show-notes', 'show-both');
+
+  if (photosVisible && notesVisible) {
+    extras.classList.add('show-both');
+  } else if (photosVisible) {
+    extras.classList.add('show-photos');
+  } else if (notesVisible) {
+    extras.classList.add('show-notes');
+  }
+}
+
+// ===== Shift Selector =====
+function selectShift(btn) {
+  document.querySelectorAll('.shift-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== Save Draft =====
+function saveDraft() {
+  showToast('💾', 'บันทึกฉบับร่างเรียบร้อยแล้ว');
+}
+
+// ===== Submit Report =====
+function submitReport() {
+  const modal = document.getElementById('successModal');
+  modal.classList.add('active');
+  launchConfetti();
+}
+
+function closeModal() {
+  const modal = document.getElementById('successModal');
+  modal.classList.remove('active');
+}
+
+// ===== Toast =====
+function showToast(icon, text) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastText').textContent = text;
+  toast.classList.add('show', 'success');
+
+  setTimeout(() => {
+    toast.classList.remove('show', 'success');
+  }, 3000);
+}
+
+// ===== Confetti =====
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#6366f1', '#8b5cf6', '#34d399', '#fbbf24', '#f43f5e', '#22d3ee', '#a78bfa', '#f59e0b'];
+
+  for (let i = 0; i < 60; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = `${Math.random() * 100}%`;
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.width = `${6 + Math.random() * 8}px`;
+    confetti.style.height = `${6 + Math.random() * 8}px`;
+    confetti.style.animationDuration = `${2 + Math.random() * 2}s`;
+    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(confetti);
+  }
+
+  setTimeout(() => {
+    container.innerHTML = '';
+  }, 4000);
+}
+
+// ===== Hamburger Menu =====
+function initHamburger() {
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+  });
+
+  overlay.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+}
+
+// ===== Close modal on overlay click =====
+document.getElementById('successModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) {
+    closeModal();
+  }
+});
+</script>
+<script src="js/theme.js"></script>
+
+</body>
+</html>
